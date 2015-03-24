@@ -15,6 +15,7 @@
 //= require three.js/three.min
 //= require Detector
 //= require OrbitControls
+// require dat-gui/build/dat.gui
 //= require floorplan
 //= require turbolinks
 //= require_tree .
