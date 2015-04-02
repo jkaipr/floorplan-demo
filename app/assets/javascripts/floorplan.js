@@ -9,8 +9,14 @@ $(function() {
         {name: 'Switch rack 2', pos: {x: 120, y: 0, z: 360}, dim: {x: 60.0, y: 201.3, z: 100.0}, textures: {front: 'texture_switch_front_120.jpg', back: 'texture_switch_back_120.jpg'}},
         {name: 'Server rack 3', pos: {x: 230, y: 0, z: 360}, dim: {x: 80.0, y: 201.3, z: 100.0}, textures: {front: 'texture_nec_front_160.png', back: 'texture_nec_back_160.jpg'}},
         {name: 'Server rack 4', pos: {x: 350, y: 0, z: 360}, dim: {x: 80.0, y: 201.3, z: 100.0}, textures: {front: 'texture_nec_front_160.png', back: 'texture_nec_back_160.jpg'}},
-        {name: 'Klima', pos: {x: 180, y: 0, z: 0}, dim: {x: 240.0, y: 201.3, z: 60.0}, textures: {front: 'texture_clima_front_480.png', back: 'texture_nec_back_160.jpg'}}]
-    };
+        {name: 'Clima', pos: {x: 180, y: 0, z: 0}, dim: {x: 240.0, y: 201.3, z: 60.0}, textures: {front: 'texture_clima_front_480.png', back: 'texture_nec_back_160.jpg'}},
+        {name: 'Clima tile 1', pos: {x: 120, y: 0, z: 240}, dim: {x: 60.0, y: 1.0, z: 60.0}, textures: {top: 'texture_clima_floor_tile_120.png'}},
+        {name: 'Clima tile 2', pos: {x: 240, y: 0, z: 240}, dim: {x: 60.0, y: 1.0, z: 60.0}, textures: {top: 'texture_clima_floor_tile_120.png'}},
+        {name: 'Clima tile 3', pos: {x: 360, y: 0, z: 240}, dim: {x: 60.0, y: 1.0, z: 60.0}, textures: {top: 'texture_clima_floor_tile_120.png'}},
+        {name: 'Clima tile 4', pos: {x: 120, y: 0, z: 480}, dim: {x: 60.0, y: 1.0, z: 60.0}, textures: {top: 'texture_clima_floor_tile_120.png'}},
+        {name: 'Clima tile 5', pos: {x: 240, y: 0, z: 480}, dim: {x: 60.0, y: 1.0, z: 60.0}, textures: {top: 'texture_clima_floor_tile_120.png'}},
+        {name: 'Clima tile 6', pos: {x: 360, y: 0, z: 480}, dim: {x: 60.0, y: 1.0, z: 60.0}, textures: {top: 'texture_clima_floor_tile_120.png'}}
+    ]};
 	Pulsar.Floorplan.addBoxesFromJSON(sampleJSON);
 	Pulsar.Floorplan.render();
 	setTimeout(Pulsar.Floorplan.render, 100);
@@ -54,8 +60,8 @@ Pulsar.Floorplan = function() {
             var tangent = new THREE.Vector3();
             var axis = new THREE.Vector3();
             var up = new THREE.Vector3(0, 1, 0);
-            var counter = 0, heatParticle = {};
             var increment = speed/1000.0;
+            var counter = 2 * increment, heatParticle = {};
             heatParticle.spline = spline;
             //heatParticle.geometry = new THREE.BoxGeometry(size.x, size.y, size.z);
             // API: THREE.CylinderGeometry(bottomRadius, topRadius, height, segmentsRadius, segmentsHeight)
@@ -88,7 +94,7 @@ Pulsar.Floorplan = function() {
                     counter += increment;
                 } else {
                     lineEndTouched = true;
-                    counter = 0;
+                    counter = 2 * increment;
                 }
             };
             particles.push(heatParticle);
@@ -309,23 +315,34 @@ Pulsar.Floorplan = function() {
         var colorMaterial = new THREE.MeshLambertMaterial({
             color: 0xcad1d8, shading: THREE.FlatShading
         });
-        var frontTexture = THREE.ImageUtils.loadTexture('/assets/' + textures.front);
-        var backTexture = THREE.ImageUtils.loadTexture('/assets/'  + textures.back);
-        frontTexture.minFilter = THREE.LinearFilter;
-        backTexture.minFilter = THREE.LinearFilter;
+        if (textures.front) {
+            var frontTexture = THREE.ImageUtils.loadTexture('/assets/' + textures.front);
+            frontTexture.minFilter = THREE.LinearFilter;
+        }
+        if (textures.back) {
+            var backTexture = THREE.ImageUtils.loadTexture('/assets/'  + textures.back);
+            backTexture.minFilter = THREE.LinearFilter;
+        }
+        if (textures.top) {
+            var topTexture = THREE.ImageUtils.loadTexture('/assets/'  + textures.top);
+            topTexture.minFilter = THREE.LinearFilter;
+        }
         var materials = [
             colorMaterial,
             colorMaterial,
+            topTexture ? new THREE.MeshLambertMaterial({
+                color: 0xcad1d8, shading: THREE.FlatShading,
+                map: topTexture
+            }) : colorMaterial,
             colorMaterial,
-            colorMaterial,
-            new THREE.MeshLambertMaterial({
+            frontTexture ? new THREE.MeshLambertMaterial({
                 color: 0xcad1d8, shading: THREE.FlatShading,
                 map: frontTexture
-            }),
-            new THREE.MeshLambertMaterial({
+            }) : colorMaterial,
+            backTexture ? new THREE.MeshLambertMaterial({
                 color: 0xcad1d8, shading: THREE.FlatShading,
                 map: backTexture
-            })
+            }) : colorMaterial
         ];
         cubeMaterial = new THREE.MeshFaceMaterial( materials );
 
@@ -340,11 +357,11 @@ Pulsar.Floorplan = function() {
 
     function addBoxesFromJSON(json) {
         $.each(json.boxes, function(i, box) {
-            Pulsar.Floorplan.addHeatParticle(box.pos, box.dim, box.textures, box.name);
+            Pulsar.Floorplan.addBox(box.pos, box.dim, box.textures, box.name);
         });
     }
 
-    this.addHeatParticle = addBox;
+    this.addBox = addBox;
     this.addBoxesFromJSON = addBoxesFromJSON;
 	this.init = init;
 	this.render = render;
