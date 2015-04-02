@@ -31,7 +31,151 @@ Pulsar.Floorplan = function() {
 
 	var objects = [];
 
-	function init() {
+    // spline test
+    var heatflow = function() {
+        var spline, particles = [], lineEndTouched = false;
+
+        /**
+         *
+         * @param position
+         * @param size
+         * @param color
+         * @param speed from 1 to 1000
+         * @returns heatParticle object
+         */
+        function makeHeatParticle(position, size, color, speed, spline) {
+            // #030FE6 dark blue
+            // #02FCFB light blue
+            // #02FCFB middle green
+            // #F1FF02 yellow
+            // #F30000 red
+
+            var tangent = new THREE.Vector3();
+            var axis = new THREE.Vector3();
+            var up = new THREE.Vector3(0, 1, 0);
+            var counter = 0, heatParticle = {};
+            var increment = speed/1000.0;
+            heatParticle.spline = spline;
+            //heatParticle.geometry = new THREE.BoxGeometry(size.x, size.y, size.z);
+            // API: THREE.CylinderGeometry(bottomRadius, topRadius, height, segmentsRadius, segmentsHeight)
+            heatParticle.geometry = new THREE.CylinderGeometry(0, 5, 10, 50, 50, false);
+
+            heatParticle.material = new THREE.MeshBasicMaterial({
+                color: color,
+                opacity: 0.0,
+                transparent: true
+            });
+
+            heatParticle.mesh = new THREE.Mesh(heatParticle.geometry, heatParticle.material);
+            heatParticle.move = function () {
+                if (counter <= 1) {
+                    var rgb = Pulsar.Color.gradientPointColor(counter, Pulsar.Color.hexToRgb('#02FCFB'), Pulsar.Color.hexToRgb('#030FE6'));
+
+                    heatParticle.mesh.material =  new THREE.MeshBasicMaterial({
+                        color: Pulsar.Color.rgbToHex(rgb),
+                        opacity: 0.5,
+                        transparent: true
+                    });
+                    //heatParticle.mesh.material.color.setRGB(rgb.r, rgb.g, rgb.b);
+                    //heatParticle.mesh.material.color = Pulsar.Color.rgbToHex(rgb);
+                    //heatParticle.material.color.setRGB(rgb.r, rgb.g, rgb.b);
+                    heatParticle.mesh.position.copy(heatParticle.spline.spline.getPointAt(counter));
+                    tangent = heatParticle.spline.spline.getTangentAt(counter).normalize();
+                    axis.crossVectors(up, tangent).normalize();
+                    var radians = Math.acos(up.dot(tangent));
+                    heatParticle.mesh.quaternion.setFromAxisAngle(axis, radians);
+                    counter += increment;
+                } else {
+                    lineEndTouched = true;
+                    counter = 0;
+                }
+            };
+            particles.push(heatParticle);
+            return heatParticle;
+        }
+
+        function makeSpline(points) {
+            var thisSpline = {};
+            thisSpline.numPoints = 50;
+
+            thisSpline.spline = new THREE.SplineCurve3(points);
+
+            thisSpline.material = new THREE.LineBasicMaterial({
+                color: 0x000000,
+                opacity: 0.0,
+                transparent: true
+            });
+
+            thisSpline.geometry = new THREE.Geometry();
+            thisSpline.splinePoints = thisSpline.spline.getPoints(thisSpline.numPoints);
+
+            for (var i = 0; i < thisSpline.splinePoints.length; i++) {
+                thisSpline.geometry.vertices.push(thisSpline.splinePoints[i]);
+            }
+            thisSpline.line = new THREE.Line(thisSpline.geometry, thisSpline.material);
+            return thisSpline;
+        }
+
+
+
+        var that = {
+            init: function () {
+
+                $.each([-20, -40, -60], function(idx, value) {
+                    that.addLine([
+                        new THREE.Vector3(value, 0, -50),
+                        new THREE.Vector3(value, 80, -80),
+                        new THREE.Vector3(value, 100, -120)
+                    ]);
+                    that.addLine([
+                        new THREE.Vector3(value, 0, -40),
+                        new THREE.Vector3(value, 100, -70),
+                        new THREE.Vector3(value, 120, -125)
+                    ]);
+                    that.addLine([
+                        new THREE.Vector3(value, 0, -30),
+                        new THREE.Vector3(value, 120, -60),
+                        new THREE.Vector3(value, 140, -130)
+                    ]);
+                });
+                
+
+                that.animate();
+                setInterval(that.moveParticles, 40);
+            },
+            addLine: function(points) {
+                var line = makeSpline(points);
+                scene.add(line.line);
+
+                //var box1 = makeHeatParticle({}, {x:5,y:5,z:5}, 0xff0000, 5, line);
+                //scene.add(box1.mesh);
+
+                var boxIntervalId = setInterval(function() {
+                    if (lineEndTouched) {
+                        clearInterval(boxIntervalId);
+                    } else {
+                        that.addHeatParticle(line);
+                    }
+                }, 500);
+            },
+            addHeatParticle: function(line) {
+                var box2 = makeHeatParticle({}, {x:5,y:5,z:5}, 0xff0000, 10, line);
+                scene.add(box2.mesh);
+            },
+            moveParticles: function() {
+                $.each(particles, function() {
+                    this.move();
+                });
+            },
+            animate: function() {
+                requestAnimationFrame(that.animate);
+                render();
+            }
+        };
+        return that;
+    }();
+
+    function init() {
 		container = document.createElement( 'div' );
 		document.body.appendChild( container );
 
@@ -100,6 +244,7 @@ Pulsar.Floorplan = function() {
 		renderer.setSize( window.innerWidth, window.innerHeight );
 		container.appendChild( renderer.domElement );
 
+        Pulsar.Floorplan.Heatflow.init();
 		document.addEventListener( 'mousemove', onDocumentMouseMove, false );
         //document.addEventListener( 'mouseup', onDocumentMouseUp, false );
 		//
@@ -107,7 +252,7 @@ Pulsar.Floorplan = function() {
 		window.addEventListener( 'resize', onWindowResize, false );
 	}
 
-	function onWindowResize() {
+    function onWindowResize() {
 		camera.aspect = window.innerWidth / window.innerHeight;
 		camera.updateProjectionMatrix();
 		renderer.setSize( window.innerWidth, window.innerHeight );
@@ -194,13 +339,14 @@ Pulsar.Floorplan = function() {
 
     function addBoxesFromJSON(json) {
         $.each(json.boxes, function(i, box) {
-            Pulsar.Floorplan.addBox(box.pos, box.dim, box.textures, box.name);
+            Pulsar.Floorplan.addHeatParticle(box.pos, box.dim, box.textures, box.name);
         });
     }
 
-    this.addBox = addBox;
+    this.addHeatParticle = addBox;
     this.addBoxesFromJSON = addBoxesFromJSON;
 	this.init = init;
 	this.render = render;
+    this.Heatflow = heatflow;
 	return this;
 }();
