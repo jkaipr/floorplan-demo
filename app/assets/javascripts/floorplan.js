@@ -65,7 +65,7 @@ Pulsar.Floorplan = function() {
             heatParticle.spline = spline;
             //heatParticle.geometry = new THREE.BoxGeometry(size.x, size.y, size.z);
             // API: THREE.CylinderGeometry(bottomRadius, topRadius, height, segmentsRadius, segmentsHeight)
-            heatParticle.geometry = new THREE.CylinderGeometry(0, 5, 10, 5, 4, false);
+            heatParticle.geometry = new THREE.CylinderGeometry(0, 5, 10, 4, 4, false);
 
             heatParticle.material = new THREE.MeshBasicMaterial({
                 visible: false
@@ -321,6 +321,209 @@ Pulsar.Floorplan = function() {
                     new THREE.Vector3(105, 225, -250),
                     new THREE.Vector3(100, 201, -290)
                 ], '#F1FF02', '#F30000', hotAirSpeed);
+
+                // ================= second row =====================
+                var secondRowHotAirSpeed = 8;
+                that.addLine([
+                    new THREE.Vector3(-170, 120, 70),
+                    new THREE.Vector3(-170, 120, 50),
+                    new THREE.Vector3(-170, 210, 0),
+                    new THREE.Vector3(-120, 215, -230),
+                    new THREE.Vector3(-100, 201, -250)
+                ], '#F1FF02', '#F30000', secondRowHotAirSpeed);
+                that.addLine([
+                    new THREE.Vector3(-170, 140, 70),
+                    new THREE.Vector3(-170, 140, 50),
+                    new THREE.Vector3(-170, 215, 0),
+                    new THREE.Vector3(-120, 220, -240),
+                    new THREE.Vector3(-100, 201, -270)
+                ], '#F1FF02', '#F30000', secondRowHotAirSpeed);
+                that.addLine([
+                    new THREE.Vector3(-170, 160, 70),
+                    new THREE.Vector3(-170, 160, 50),
+                    new THREE.Vector3(-170, 220, 0),
+                    new THREE.Vector3(-120, 225, -250),
+                    new THREE.Vector3(-100, 201, -290)
+                ], '#F1FF02', '#F30000', secondRowHotAirSpeed);
+
+                that.addLine([
+                    new THREE.Vector3(-150, 120, 70),
+                    new THREE.Vector3(-150, 120, 50),
+                    new THREE.Vector3(-150, 210, 0),
+                    new THREE.Vector3(-90, 215, -230),
+                    new THREE.Vector3(-75, 201, -250)
+                ], '#F1FF02', '#F30000', secondRowHotAirSpeed);
+                that.addLine([
+                    new THREE.Vector3(-150, 140, 70),
+                    new THREE.Vector3(-150, 140, 50),
+                    new THREE.Vector3(-150, 215, 0),
+                    new THREE.Vector3(-90, 220, -240),
+                    new THREE.Vector3(-75, 201, -270)
+                ], '#F1FF02', '#F30000', secondRowHotAirSpeed);
+                that.addLine([
+                    new THREE.Vector3(-150, 160, 70),
+                    new THREE.Vector3(-150, 160, 50),
+                    new THREE.Vector3(-150, 220, 0),
+                    new THREE.Vector3(-90, 225, -250),
+                    new THREE.Vector3(-75, 201, -290)
+                ], '#F1FF02', '#F30000', secondRowHotAirSpeed);
+
+                that.addLine([
+                    new THREE.Vector3(-130, 120, 70),
+                    new THREE.Vector3(-130, 120, 50),
+                    new THREE.Vector3(-130, 210, 0),
+                    new THREE.Vector3(-60, 215, -230),
+                    new THREE.Vector3(-50, 201, -250)
+                ], '#F1FF02', '#F30000', secondRowHotAirSpeed);
+                that.addLine([
+                    new THREE.Vector3(-130, 140, 70),
+                    new THREE.Vector3(-130, 140, 50),
+                    new THREE.Vector3(-130, 215, 0),
+                    new THREE.Vector3(-60, 220, -240),
+                    new THREE.Vector3(-50, 201, -270)
+                ], '#F1FF02', '#F30000', secondRowHotAirSpeed);
+                that.addLine([
+                    new THREE.Vector3(-130, 160, 70),
+                    new THREE.Vector3(-130, 160, 50),
+                    new THREE.Vector3(-130, 220, 0),
+                    new THREE.Vector3(-60, 225, -250),
+                    new THREE.Vector3(-50, 201, -290)
+                ], '#F1FF02', '#F30000', secondRowHotAirSpeed);
+
+                // --- rack 2 ---
+                that.addLine([
+                    new THREE.Vector3(-50, 120, 70),
+                    new THREE.Vector3(-50, 120, 50),
+                    new THREE.Vector3(-50, 210, 0),
+                    new THREE.Vector3(-37, 215, -230),
+                    new THREE.Vector3(-25, 201, -250)
+                ], '#F1FF02', '#F30000', secondRowHotAirSpeed);
+                that.addLine([
+                    new THREE.Vector3(-50, 140, 70),
+                    new THREE.Vector3(-50, 140, 50),
+                    new THREE.Vector3(-50, 215, 0),
+                    new THREE.Vector3(-37, 220, -240),
+                    new THREE.Vector3(-25, 201, -270)
+                ], '#F1FF02', '#F30000', secondRowHotAirSpeed);
+                that.addLine([
+                    new THREE.Vector3(-50, 160, 70),
+                    new THREE.Vector3(-50, 160, 50),
+                    new THREE.Vector3(-50, 220, 0),
+                    new THREE.Vector3(-37, 225, -250),
+                    new THREE.Vector3(-25, 201, -290)
+                ], '#F1FF02', '#F30000', secondRowHotAirSpeed);
+
+                that.addLine([
+                    new THREE.Vector3(-30, 120, 70),
+                    new THREE.Vector3(-30, 120, 50),
+                    new THREE.Vector3(-30, 210, 0),
+                    new THREE.Vector3(-15, 215, -230),
+                    new THREE.Vector3(0, 201, -250)
+                ], '#F1FF02', '#F30000', secondRowHotAirSpeed);
+                that.addLine([
+                    new THREE.Vector3(-30, 140, 70),
+                    new THREE.Vector3(-30, 140, 50),
+                    new THREE.Vector3(-30, 215, 0),
+                    new THREE.Vector3(-15, 220, -240),
+                    new THREE.Vector3(0, 201, -270)
+                ], '#F1FF02', '#F30000', secondRowHotAirSpeed);
+                that.addLine([
+                    new THREE.Vector3(-30, 160, 70),
+                    new THREE.Vector3(-30, 160, 50),
+                    new THREE.Vector3(-30, 220, 0),
+                    new THREE.Vector3(-15, 225, -250),
+                    new THREE.Vector3(0, 201, -290)
+                ], '#F1FF02', '#F30000', secondRowHotAirSpeed);
+
+                that.addLine([
+                    new THREE.Vector3(-10, 120, 70),
+                    new THREE.Vector3(-10, 120, 50),
+                    new THREE.Vector3(-10, 210, 0),
+                    new THREE.Vector3(10, 215, -230),
+                    new THREE.Vector3(25, 201, -250)
+                ], '#F1FF02', '#F30000', secondRowHotAirSpeed);
+                that.addLine([
+                    new THREE.Vector3(-10, 140, 70),
+                    new THREE.Vector3(-10, 140, 50),
+                    new THREE.Vector3(-10, 215, 0),
+                    new THREE.Vector3(10, 220, -240),
+                    new THREE.Vector3(25, 201, -270)
+                ], '#F1FF02', '#F30000', secondRowHotAirSpeed);
+                that.addLine([
+                    new THREE.Vector3(-10, 160, 70),
+                    new THREE.Vector3(-10, 160, 50),
+                    new THREE.Vector3(-10, 220, 0),
+                    new THREE.Vector3(10, 225, -250),
+                    new THREE.Vector3(25, 201, -290)
+                ], '#F1FF02', '#F30000', secondRowHotAirSpeed);
+
+                // rack 3
+                that.addLine([
+                    new THREE.Vector3(70, 120, 70),
+                    new THREE.Vector3(70, 120, 50),
+                    new THREE.Vector3(70, 210, 0),
+                    new THREE.Vector3(60, 215, -230),
+                    new THREE.Vector3(50, 201, -250)
+                ], '#F1FF02', '#F30000', secondRowHotAirSpeed);
+                that.addLine([
+                    new THREE.Vector3(70, 140, 70),
+                    new THREE.Vector3(70, 140, 50),
+                    new THREE.Vector3(70, 215, 0),
+                    new THREE.Vector3(60, 220, -240),
+                    new THREE.Vector3(50, 201, -270)
+                ], '#F1FF02', '#F30000', secondRowHotAirSpeed);
+                that.addLine([
+                    new THREE.Vector3(70, 160, 70),
+                    new THREE.Vector3(70, 160, 50),
+                    new THREE.Vector3(70, 220, 0),
+                    new THREE.Vector3(60, 225, -250),
+                    new THREE.Vector3(50, 201, -290)
+                ], '#F1FF02', '#F30000', secondRowHotAirSpeed);
+
+                that.addLine([
+                    new THREE.Vector3(90, 120, 70),
+                    new THREE.Vector3(90, 120, 50),
+                    new THREE.Vector3(90, 210, 0),
+                    new THREE.Vector3(80, 215, -230),
+                    new THREE.Vector3(75, 201, -250)
+                ], '#F1FF02', '#F30000', secondRowHotAirSpeed);
+                that.addLine([
+                    new THREE.Vector3(90, 140, 70),
+                    new THREE.Vector3(90, 140, 50),
+                    new THREE.Vector3(90, 215, 0),
+                    new THREE.Vector3(80, 220, -240),
+                    new THREE.Vector3(75, 201, -270)
+                ], '#F1FF02', '#F30000', secondRowHotAirSpeed);
+                that.addLine([
+                    new THREE.Vector3(90, 160, 70),
+                    new THREE.Vector3(90, 160, 50),
+                    new THREE.Vector3(90, 220, 0),
+                    new THREE.Vector3(80, 225, -250),
+                    new THREE.Vector3(75, 201, -290)
+                ], '#F1FF02', '#F30000', secondRowHotAirSpeed);
+
+                that.addLine([
+                    new THREE.Vector3(110, 120, 70),
+                    new THREE.Vector3(110, 120, 50),
+                    new THREE.Vector3(110, 210, 0),
+                    new THREE.Vector3(105, 215, -230),
+                    new THREE.Vector3(100, 201, -250)
+                ], '#F1FF02', '#F30000', secondRowHotAirSpeed);
+                that.addLine([
+                    new THREE.Vector3(110, 140, 70),
+                    new THREE.Vector3(110, 140, 50),
+                    new THREE.Vector3(110, 215, 0),
+                    new THREE.Vector3(105, 220, -240),
+                    new THREE.Vector3(100, 201, -270)
+                ], '#F1FF02', '#F30000', secondRowHotAirSpeed);
+                that.addLine([
+                    new THREE.Vector3(110, 160, 70),
+                    new THREE.Vector3(110, 160, 50),
+                    new THREE.Vector3(110, 220, 0),
+                    new THREE.Vector3(105, 225, -250),
+                    new THREE.Vector3(100, 201, -290)
+                ], '#F1FF02', '#F30000', secondRowHotAirSpeed);
+
 
                 that.animate();
                 setInterval(that.moveParticles, 40);
