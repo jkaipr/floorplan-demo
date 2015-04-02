@@ -9,7 +9,7 @@ $(function() {
         {name: 'Switch rack 2', pos: {x: 120, y: 0, z: 360}, dim: {x: 60.0, y: 201.3, z: 100.0}, textures: {front: 'texture_switch_front_120.jpg', back: 'texture_switch_back_120.jpg'}},
         {name: 'Server rack 3', pos: {x: 230, y: 0, z: 360}, dim: {x: 80.0, y: 201.3, z: 100.0}, textures: {front: 'texture_nec_front_160.png', back: 'texture_nec_back_160.jpg'}},
         {name: 'Server rack 4', pos: {x: 350, y: 0, z: 360}, dim: {x: 80.0, y: 201.3, z: 100.0}, textures: {front: 'texture_nec_front_160.png', back: 'texture_nec_back_160.jpg'}},
-        {name: 'Clima', pos: {x: 180, y: 0, z: 0}, dim: {x: 240.0, y: 201.3, z: 60.0}, textures: {front: 'texture_clima_front_480.png', back: 'texture_nec_back_160.jpg'}},
+        {name: 'Clima', pos: {x: 180, y: 0, z: 0}, dim: {x: 240.0, y: 201.3, z: 60.0}, textures: {front: 'texture_clima_front_480.png', back: 'texture_nec_back_160.jpg', top: 'texture_clima_top_120.png'}},
         {name: 'Clima tile 1', pos: {x: 120, y: 0, z: 240}, dim: {x: 60.0, y: 1.0, z: 60.0}, textures: {top: 'texture_clima_floor_tile_120.png'}},
         {name: 'Clima tile 2', pos: {x: 240, y: 0, z: 240}, dim: {x: 60.0, y: 1.0, z: 60.0}, textures: {top: 'texture_clima_floor_tile_120.png'}},
         {name: 'Clima tile 3', pos: {x: 360, y: 0, z: 240}, dim: {x: 60.0, y: 1.0, z: 60.0}, textures: {top: 'texture_clima_floor_tile_120.png'}},
