@@ -40,7 +40,7 @@ Pulsar.Floorplan = function() {
 
     // spline test
     var heatflow = function() {
-        var spline, particles = [], lineEndTouched = false;
+        var spline, particles = [];
 
         /**
          *
@@ -50,7 +50,7 @@ Pulsar.Floorplan = function() {
          * @param speed from 1 to 1000
          * @returns heatParticle object
          */
-        function makeHeatParticle(position, size, color, speed, spline) {
+        function makeHeatParticle(size, speed, spline) {
             // #030FE6 dark blue
             // #02FCFB light blue
             // #02FCFB middle green
@@ -68,15 +68,13 @@ Pulsar.Floorplan = function() {
             heatParticle.geometry = new THREE.CylinderGeometry(0, 5, 10, 5, 4, false);
 
             heatParticle.material = new THREE.MeshBasicMaterial({
-                color: color,
-                opacity: 0.0,
-                transparent: true
+                visible: false
             });
 
             heatParticle.mesh = new THREE.Mesh(heatParticle.geometry, heatParticle.material);
             heatParticle.move = function () {
                 if (counter <= 1) {
-                    var rgb = Pulsar.Color.gradientPointColor(counter, Pulsar.Color.hexToRgb('#02FCFB'), Pulsar.Color.hexToRgb('#030FE6'));
+                    var rgb = Pulsar.Color.gradientPointColor(counter, heatParticle.spline.color.start, heatParticle.spline.color.end);
 
                     heatParticle.mesh.material =  new THREE.MeshBasicMaterial({
                         color: Pulsar.Color.rgbToHex(rgb),
@@ -93,7 +91,7 @@ Pulsar.Floorplan = function() {
                     heatParticle.mesh.quaternion.setFromAxisAngle(axis, radians);
                     counter += increment;
                 } else {
-                    lineEndTouched = true;
+                    heatParticle.spline.particlesReachedEnd = true;
                     counter = 2 * increment;
                 }
             };
@@ -101,9 +99,11 @@ Pulsar.Floorplan = function() {
             return heatParticle;
         }
 
-        function makeSpline(points) {
+        function makeSpline(points, startColor, endColor) {
             var thisSpline = {};
+            thisSpline.particlesReachedEnd = false;
             thisSpline.numPoints = 50;
+            thisSpline.color = {start: Pulsar.Color.hexToRgb(startColor), end: Pulsar.Color.hexToRgb(endColor)};
 
             thisSpline.spline = new THREE.SplineCurve3(points);
 
@@ -121,52 +121,63 @@ Pulsar.Floorplan = function() {
             return thisSpline;
         }
 
-
-
         var that = {
             init: function () {
+                // from floor tiles to racks / switches
                 $.each([
                     [[-50, -55, -90], [-30, -40, -95], [-10, -30, -100]],
                     [[190, 185, 150], [210, 200, 145], [230, 210, 140]]], function(idxZ, zValues) { // z axis
-                    $.each([110, 90, 70, -10, -30, -50, -130, -150, -170], function(idxX, xValue) { //
+                    $.each([110, 90, 70, -10, -30, -50, -130, -150, -170], function(idxX, xValue) { // x axis
                         that.addLine([
                             new THREE.Vector3(xValue, 0, zValues[0][0]),
                             new THREE.Vector3(xValue, 80, zValues[0][1]),
                             new THREE.Vector3(xValue, 100, zValues[0][2])
-                        ]);
+                        ], '#02FCFB', '#030FE6', 20);
                         that.addLine([
                             new THREE.Vector3(xValue, 0, zValues[1][0]),
                             new THREE.Vector3(xValue, 100, zValues[1][1]),
                             new THREE.Vector3(xValue, 120, zValues[1][2])
-                        ]);
+                        ], '#02FCFB', '#030FE6', 20);
                         that.addLine([
                             new THREE.Vector3(xValue, 0, zValues[2][0]),
                             new THREE.Vector3(xValue, 120, zValues[2][1]),
                             new THREE.Vector3(xValue, 140, zValues[2][2])
-                        ]);
+                        ], '#02FCFB', '#030FE6', 20);
                     });
                 });
+
+                // from racks / switches to clima
+                that.addLine([
+                    new THREE.Vector3(-170, 140, -170),
+                    new THREE.Vector3(-170, 140, -200),
+                    new THREE.Vector3(-140, 220, -240),
+                    new THREE.Vector3(-110, 201, -270)
+                ], '#F1FF02', '#F30000', 15);
+                that.addLine([
+                    new THREE.Vector3(-170, 160, -170),
+                    new THREE.Vector3(-170, 160, -200),
+                    new THREE.Vector3(-140, 225, -250),
+                    new THREE.Vector3(-110, 201, -290)
+                ], '#F1FF02', '#F30000', 15);
+
 
                 that.animate();
                 setInterval(that.moveParticles, 40);
             },
-            addLine: function(points) {
-                var line = makeSpline(points);
+            addLine: function(points, startColor, endColor, speed) {
+                var line = makeSpline(points, startColor, endColor);
                 scene.add(line.line);
 
-                //var box1 = makeHeatParticle({}, {x:5,y:5,z:5}, 0xff0000, 5, line);
-                //scene.add(box1.mesh);
-
                 var boxIntervalId = setInterval(function() {
-                    if (lineEndTouched) {
+                    if (line.particlesReachedEnd) {
                         clearInterval(boxIntervalId);
                     } else {
-                        that.addHeatParticle(line);
+                        that.addHeatParticle(line, speed);
                     }
                 }, 500);
             },
-            addHeatParticle: function(line) {
-                var particle = makeHeatParticle({}, {x:5,y:5,z:5}, 0xff0000, 20, line);
+            addHeatParticle: function(line, speed) {
+                var particle = makeHeatParticle({x:5,y:5,z:5}, speed, line);
                 scene.add(particle.mesh);
             },
             moveParticles: function() {
