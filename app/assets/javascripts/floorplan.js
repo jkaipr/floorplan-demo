@@ -3,12 +3,13 @@ var Pulsar = Pulsar || {};
 $(function() {
 	Pulsar.Floorplan.init();
     var sampleJSON = {boxes: [
-        {name: 'Switch rack 1', pos: {x: 100, y: 0, z: 100}, dim: {x: 60.0, y: 201.3, z: 100.0}, textures: {front: 'texture_switch_front_120.jpg', back: 'texture_switch_back_120.jpg'}},
-        {name: 'Server rack 1', pos: {x: 210, y: 0, z: 100}, dim: {x: 80.0, y: 201.3, z: 100.0}, textures: {front: 'texture_nec_front_160.png', back: 'texture_nec_back_160.jpg'}},
-        {name: 'Server rack 2', pos: {x: 340, y: 0, z: 100}, dim: {x: 80.0, y: 201.3, z: 100.0}, textures: {front: 'texture_nec_front_160.png', back: 'texture_nec_back_160.jpg'}},
-        {name: 'Switch rack 2', pos: {x: 100, y: 0, z: 400}, dim: {x: 60.0, y: 201.3, z: 100.0}, textures: {front: 'texture_switch_front_120.jpg', back: 'texture_switch_back_120.jpg'}},
-        {name: 'Server rack 3', pos: {x: 210, y: 0, z: 400}, dim: {x: 80.0, y: 201.3, z: 100.0}, textures: {front: 'texture_nec_front_160.png', back: 'texture_nec_back_160.jpg'}},
-        {name: 'Server rack 4', pos: {x: 340, y: 0, z: 400}, dim: {x: 80.0, y: 201.3, z: 100.0}, textures: {front: 'texture_nec_front_160.png', back: 'texture_nec_back_160.jpg'}}]
+        {name: 'Switch rack 1', pos: {x: 120, y: 0, z: 120}, dim: {x: 60.0, y: 201.3, z: 100.0}, textures: {front: 'texture_switch_front_120.jpg', back: 'texture_switch_back_120.jpg'}},
+        {name: 'Server rack 1', pos: {x: 230, y: 0, z: 120}, dim: {x: 80.0, y: 201.3, z: 100.0}, textures: {front: 'texture_nec_front_160.png', back: 'texture_nec_back_160.jpg'}},
+        {name: 'Server rack 2', pos: {x: 350, y: 0, z: 120}, dim: {x: 80.0, y: 201.3, z: 100.0}, textures: {front: 'texture_nec_front_160.png', back: 'texture_nec_back_160.jpg'}},
+        {name: 'Switch rack 2', pos: {x: 120, y: 0, z: 360}, dim: {x: 60.0, y: 201.3, z: 100.0}, textures: {front: 'texture_switch_front_120.jpg', back: 'texture_switch_back_120.jpg'}},
+        {name: 'Server rack 3', pos: {x: 230, y: 0, z: 360}, dim: {x: 80.0, y: 201.3, z: 100.0}, textures: {front: 'texture_nec_front_160.png', back: 'texture_nec_back_160.jpg'}},
+        {name: 'Server rack 4', pos: {x: 350, y: 0, z: 360}, dim: {x: 80.0, y: 201.3, z: 100.0}, textures: {front: 'texture_nec_front_160.png', back: 'texture_nec_back_160.jpg'}},
+        {name: 'Klima', pos: {x: 180, y: 0, z: 0}, dim: {x: 240.0, y: 201.3, z: 60.0}, textures: {front: 'texture_clima_front_480.png', back: 'texture_nec_back_160.jpg'}}]
     };
 	Pulsar.Floorplan.addBoxesFromJSON(sampleJSON);
 	Pulsar.Floorplan.render();
@@ -58,7 +59,7 @@ Pulsar.Floorplan = function() {
             heatParticle.spline = spline;
             //heatParticle.geometry = new THREE.BoxGeometry(size.x, size.y, size.z);
             // API: THREE.CylinderGeometry(bottomRadius, topRadius, height, segmentsRadius, segmentsHeight)
-            heatParticle.geometry = new THREE.CylinderGeometry(0, 5, 10, 50, 50, false);
+            heatParticle.geometry = new THREE.CylinderGeometry(0, 5, 10, 5, 4, false);
 
             heatParticle.material = new THREE.MeshBasicMaterial({
                 color: color,
@@ -101,9 +102,7 @@ Pulsar.Floorplan = function() {
             thisSpline.spline = new THREE.SplineCurve3(points);
 
             thisSpline.material = new THREE.LineBasicMaterial({
-                color: 0x000000,
-                opacity: 0.0,
-                transparent: true
+                visible: false
             });
 
             thisSpline.geometry = new THREE.Geometry();
@@ -120,25 +119,27 @@ Pulsar.Floorplan = function() {
 
         var that = {
             init: function () {
-
-                $.each([-20, -40, -60], function(idx, value) {
-                    that.addLine([
-                        new THREE.Vector3(value, 0, -50),
-                        new THREE.Vector3(value, 80, -80),
-                        new THREE.Vector3(value, 100, -120)
-                    ]);
-                    that.addLine([
-                        new THREE.Vector3(value, 0, -40),
-                        new THREE.Vector3(value, 100, -70),
-                        new THREE.Vector3(value, 120, -125)
-                    ]);
-                    that.addLine([
-                        new THREE.Vector3(value, 0, -30),
-                        new THREE.Vector3(value, 120, -60),
-                        new THREE.Vector3(value, 140, -130)
-                    ]);
+                $.each([
+                    [[-50, -55, -90], [-30, -40, -95], [-10, -30, -100]],
+                    [[190, 185, 150], [210, 200, 145], [230, 210, 140]]], function(idxZ, zValues) { // z axis
+                    $.each([110, 90, 70, -10, -30, -50, -130, -150, -170], function(idxX, xValue) { //
+                        that.addLine([
+                            new THREE.Vector3(xValue, 0, zValues[0][0]),
+                            new THREE.Vector3(xValue, 80, zValues[0][1]),
+                            new THREE.Vector3(xValue, 100, zValues[0][2])
+                        ]);
+                        that.addLine([
+                            new THREE.Vector3(xValue, 0, zValues[1][0]),
+                            new THREE.Vector3(xValue, 100, zValues[1][1]),
+                            new THREE.Vector3(xValue, 120, zValues[1][2])
+                        ]);
+                        that.addLine([
+                            new THREE.Vector3(xValue, 0, zValues[2][0]),
+                            new THREE.Vector3(xValue, 120, zValues[2][1]),
+                            new THREE.Vector3(xValue, 140, zValues[2][2])
+                        ]);
+                    });
                 });
-                
 
                 that.animate();
                 setInterval(that.moveParticles, 40);
@@ -159,8 +160,8 @@ Pulsar.Floorplan = function() {
                 }, 500);
             },
             addHeatParticle: function(line) {
-                var box2 = makeHeatParticle({}, {x:5,y:5,z:5}, 0xff0000, 10, line);
-                scene.add(box2.mesh);
+                var particle = makeHeatParticle({}, {x:5,y:5,z:5}, 0xff0000, 20, line);
+                scene.add(particle.mesh);
             },
             moveParticles: function() {
                 $.each(particles, function() {
