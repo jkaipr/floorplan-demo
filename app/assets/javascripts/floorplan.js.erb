@@ -2,20 +2,28 @@ var Pulsar = Pulsar || {};
 
 $(function() {
 	Pulsar.Floorplan.init();
+    var front_switch_rack_path = '<%= asset_path 'texture_switch_front_120.jpg' %>';
+    var back_switch_rack_path = '<%= asset_path 'texture_switch_back_120.jpg' %>';
+    var front_server_rack_path = '<%= asset_path 'texture_nec_front_160.png' %>';
+    var back_server_rack_path = '<%= asset_path 'texture_nec_back_160.jpg' %>';
+    var clima_top_path = '<%= asset_path 'texture_clima_top_120.png' %>';
+    var clima_front_path = '<%= asset_path 'texture_clima_front_480.png' %>';
+    var clima_floor_tile_path = '<%= asset_path clima_floor_tile_path %>';
+
     var sampleJSON = {boxes: [
-        {name: 'Switch rack 1', pos: {x: 120, y: 0, z: 120}, dim: {x: 60.0, y: 201.3, z: 100.0}, textures: {front: 'texture_switch_front_120.jpg', back: 'texture_switch_back_120.jpg'}},
-        {name: 'Server rack 1', pos: {x: 230, y: 0, z: 120}, dim: {x: 80.0, y: 201.3, z: 100.0}, textures: {front: 'texture_nec_front_160.png', back: 'texture_nec_back_160.jpg'}},
-        {name: 'Server rack 2', pos: {x: 350, y: 0, z: 120}, dim: {x: 80.0, y: 201.3, z: 100.0}, textures: {front: 'texture_nec_front_160.png', back: 'texture_nec_back_160.jpg'}},
-        {name: 'Switch rack 2', pos: {x: 120, y: 0, z: 360}, dim: {x: 60.0, y: 201.3, z: 100.0}, textures: {front: 'texture_switch_front_120.jpg', back: 'texture_switch_back_120.jpg'}},
-        {name: 'Server rack 3', pos: {x: 230, y: 0, z: 360}, dim: {x: 80.0, y: 201.3, z: 100.0}, textures: {front: 'texture_nec_front_160.png', back: 'texture_nec_back_160.jpg'}},
-        {name: 'Server rack 4', pos: {x: 350, y: 0, z: 360}, dim: {x: 80.0, y: 201.3, z: 100.0}, textures: {front: 'texture_nec_front_160.png', back: 'texture_nec_back_160.jpg'}},
-        {name: 'Clima', pos: {x: 180, y: 0, z: 0}, dim: {x: 240.0, y: 201.3, z: 60.0}, textures: {front: 'texture_clima_front_480.png', back: 'texture_nec_back_160.jpg', top: 'texture_clima_top_120.png'}},
-        {name: 'Clima tile 1', pos: {x: 120, y: 0, z: 240}, dim: {x: 60.0, y: 1.0, z: 60.0}, textures: {top: 'texture_clima_floor_tile_120.png'}},
-        {name: 'Clima tile 2', pos: {x: 240, y: 0, z: 240}, dim: {x: 60.0, y: 1.0, z: 60.0}, textures: {top: 'texture_clima_floor_tile_120.png'}},
-        {name: 'Clima tile 3', pos: {x: 360, y: 0, z: 240}, dim: {x: 60.0, y: 1.0, z: 60.0}, textures: {top: 'texture_clima_floor_tile_120.png'}},
-        {name: 'Clima tile 4', pos: {x: 120, y: 0, z: 480}, dim: {x: 60.0, y: 1.0, z: 60.0}, textures: {top: 'texture_clima_floor_tile_120.png'}},
-        {name: 'Clima tile 5', pos: {x: 240, y: 0, z: 480}, dim: {x: 60.0, y: 1.0, z: 60.0}, textures: {top: 'texture_clima_floor_tile_120.png'}},
-        {name: 'Clima tile 6', pos: {x: 360, y: 0, z: 480}, dim: {x: 60.0, y: 1.0, z: 60.0}, textures: {top: 'texture_clima_floor_tile_120.png'}}
+        {name: 'Switch rack 1', pos: {x: 120, y: 0, z: 120}, dim: {x: 60.0, y: 201.3, z: 100.0}, textures: {front: front_switch_rack_path, back: back_switch_rack_path}},
+        {name: 'Server rack 1', pos: {x: 230, y: 0, z: 120}, dim: {x: 80.0, y: 201.3, z: 100.0}, textures: {front: front_server_rack_path, back: back_server_rack_path}},
+        {name: 'Server rack 2', pos: {x: 350, y: 0, z: 120}, dim: {x: 80.0, y: 201.3, z: 100.0}, textures: {front: front_server_rack_path, back: back_server_rack_path}},
+        {name: 'Switch rack 2', pos: {x: 120, y: 0, z: 360}, dim: {x: 60.0, y: 201.3, z: 100.0}, textures: {front: front_switch_rack_path, back: back_switch_rack_path}},
+        {name: 'Server rack 3', pos: {x: 230, y: 0, z: 360}, dim: {x: 80.0, y: 201.3, z: 100.0}, textures: {front: front_server_rack_path, back: back_server_rack_path}},
+        {name: 'Server rack 4', pos: {x: 350, y: 0, z: 360}, dim: {x: 80.0, y: 201.3, z: 100.0}, textures: {front: front_server_rack_path, back: back_server_rack_path}},
+        {name: 'Clima', pos: {x: 180, y: 0, z: 0}, dim: {x: 240.0, y: 201.3, z: 60.0}, textures: {front: clima_front_path, back: back_server_rack_path, top: clima_top_path}},
+        {name: 'Clima tile 1', pos: {x: 120, y: 0, z: 240}, dim: {x: 60.0, y: 1.0, z: 60.0}, textures: {top: clima_floor_tile_path}},
+        {name: 'Clima tile 2', pos: {x: 240, y: 0, z: 240}, dim: {x: 60.0, y: 1.0, z: 60.0}, textures: {top: clima_floor_tile_path}},
+        {name: 'Clima tile 3', pos: {x: 360, y: 0, z: 240}, dim: {x: 60.0, y: 1.0, z: 60.0}, textures: {top: clima_floor_tile_path}},
+        {name: 'Clima tile 4', pos: {x: 120, y: 0, z: 480}, dim: {x: 60.0, y: 1.0, z: 60.0}, textures: {top: clima_floor_tile_path}},
+        {name: 'Clima tile 5', pos: {x: 240, y: 0, z: 480}, dim: {x: 60.0, y: 1.0, z: 60.0}, textures: {top: clima_floor_tile_path}},
+        {name: 'Clima tile 6', pos: {x: 360, y: 0, z: 480}, dim: {x: 60.0, y: 1.0, z: 60.0}, textures: {top: clima_floor_tile_path}}
     ]};
 	Pulsar.Floorplan.addBoxesFromJSON(sampleJSON);
 	Pulsar.Floorplan.render();
