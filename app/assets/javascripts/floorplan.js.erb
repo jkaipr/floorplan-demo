@@ -698,15 +698,15 @@ Pulsar.Floorplan = function() {
             color: 0xcad1d8, shading: THREE.FlatShading
         });
         if (textures.front) {
-            var frontTexture = THREE.ImageUtils.loadTexture('/assets/' + textures.front);
+            var frontTexture = THREE.ImageUtils.loadTexture(textures.front);
             frontTexture.minFilter = THREE.LinearFilter;
         }
         if (textures.back) {
-            var backTexture = THREE.ImageUtils.loadTexture('/assets/'  + textures.back);
+            var backTexture = THREE.ImageUtils.loadTexture(textures.back);
             backTexture.minFilter = THREE.LinearFilter;
         }
         if (textures.top) {
-            var topTexture = THREE.ImageUtils.loadTexture('/assets/'  + textures.top);
+            var topTexture = THREE.ImageUtils.loadTexture(textures.top);
             topTexture.minFilter = THREE.LinearFilter;
         }
         var materials = [
