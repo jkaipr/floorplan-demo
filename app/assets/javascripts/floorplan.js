@@ -44,10 +44,9 @@ Pulsar.Floorplan = function() {
 
         /**
          *
-         * @param position
          * @param size
-         * @param color
          * @param speed from 1 to 1000
+         * @param spline to follow while moving
          * @returns heatParticle object
          */
         function makeHeatParticle(size, speed, spline) {
@@ -538,7 +537,7 @@ Pulsar.Floorplan = function() {
                     } else {
                         that.addHeatParticle(line, speed);
                     }
-                }, 500);
+                }, 800);
             },
             addHeatParticle: function(line, speed) {
                 var particle = makeHeatParticle({x:5,y:5,z:5}, speed, line);
